@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bose-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bose
+  template:
+    metadata:
+      labels:
+        app: bose
+    spec:
+      containers:
+        - name: bose
+          resources:
+            requests:
+              ephemeral-storage: "800Mi"
+            limits:
+              ephemeral-storage: "800Mi"
+          image: chetan1111/bose:1.0.4
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bose-srv
+spec:
+  selector:
+    app: bose
+  ports:
+    - name: bose
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
